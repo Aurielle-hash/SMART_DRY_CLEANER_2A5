@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TabWidget</class>
+ <widget class="QTabWidget" name="TabWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1051</width>
+    <height>552</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TabWidget</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QTabWidget::pane { /* The tab widget frame */
+    border-top: 2px solid #C2C7CB;
+}</string>
+  </property>
+  <property name="currentIndex">
+   <number>0</number>
+  </property>
+  <widget class="QWidget" name="CAISSE">
+   <attribute name="title">
+    <string>Caisse</string>
+   </attribute>
+   <widget class="QTableView" name="tableView_Caisse">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>117</y>
+      <width>1051</width>
+      <height>281</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_rechercheCaisse">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>90</y>
+      <width>221</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_montant">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>470</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> montant</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_annee">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>500</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> année</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_libelle">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>470</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> libellé</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_newCaisse">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>84</y>
+      <width>121</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nouvelle caisse</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rechercheCaisse">
+    <property name="geometry">
+     <rect>
+      <x>13</x>
+      <y>90</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rechercher :</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_bilanCaisse">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>84</y>
+      <width>121</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bilan</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_actualiserCaisse">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>84</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Actualiser</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_filtreRechercheCaisse">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>440</y>
+      <width>361</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_filtreRecherche">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>430</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Filtre recherche</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_historiqueCaisse">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>480</y>
+      <width>121</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Historique</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1051</width>
+      <height>83</height>
+     </rect>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>images/graphique.jpeg</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::LinksAccessibleByMouse</set>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_afficheDepense">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>500</y>
+      <width>191</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>depenses</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_afficheVersement">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>470</y>
+      <width>201</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>versement</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="CLIENT">
+   <attribute name="title">
+    <string>Clients</string>
+   </attribute>
+   <widget class="QTableView" name="tableView_client">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>70</y>
+      <width>1051</width>
+      <height>281</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="STAFF">
+   <attribute name="title">
+    <string>Employés</string>
+   </attribute>
+   <widget class="QTableView" name="tableView_employe">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>71</y>
+      <width>1051</width>
+      <height>281</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="STOCK">
+   <attribute name="title">
+    <string>Stocks</string>
+   </attribute>
+   <widget class="QTableView" name="tableView_stocks">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>71</y>
+      <width>1051</width>
+      <height>281</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="ARTICLE">
+   <attribute name="title">
+    <string>Articles</string>
+   </attribute>
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>71</y>
+      <width>1051</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="tabKeyNavigation">
+     <bool>true</bool>
+    </property>
+    <property name="dragDropOverwriteMode">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
