@@ -7,7 +7,8 @@
 
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class MainWindow;
+    class  QSystemTrayIcon;}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -17,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+     QSystemTrayIcon *Get_notif(){return mSystemTrayIcon;};
 
 private slots:
 
@@ -39,10 +41,10 @@ private slots:
 
     void on_pushButton_8_clicked();
 
-    void on_notifier_lina_clicked();
 
 private:
     Ui::MainWindow *ui;
     stock S;
+     QSystemTrayIcon *mSystemTrayIcon;
 };
 #endif // MAINWINDOW_H

@@ -28,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    mSystemTrayIcon=new QSystemTrayIcon(this);
+    mSystemTrayIcon->setIcon(QIcon(":/test.png"));
+    mSystemTrayIcon ->setVisible(true);
+
     ui->tablemateriel->setModel(S.afficher());
 
     ui->le_id_supp->setValidator(new QIntValidator (0,9999,this));
@@ -79,6 +83,7 @@ void MainWindow::on_pb_supprimer_clicked()
 void MainWindow::on_pb_ajout_clicked()
 {
     int id=ui->le_id->text().toInt();
+
     int quantite=ui->le_quantite->text().toInt();
     QString nom=ui->le_nom->text();
     QString categorie=ui->le_cat->text();
@@ -87,10 +92,14 @@ stock S(id,quantite,nom,categorie,prix);
 bool test=S.ajouter();
  QMessageBox msgBox;
 if (test)
-    msgBox.setText("ajout avec succes");
+
+   { msgBox.setText("ajout avec succes");}
+if (quantite<5)
+{ mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
 
 else
-    msgBox.setText("echec ");
+
+   { msgBox.setText("echec ");}
 msgBox.exec();
 ui->tablemateriel->setModel(S.afficher());
 
@@ -271,9 +280,23 @@ void MainWindow::on_pushButton_8_clicked()
 }
 
 
-void MainWindow::on_notifier_lina_clicked()
-{
-/*
-    mSystemTrayIcon->showMessage(tr("Message"),tr("Attention stock va etre epuisé"));
-*/
-}
+
+                           
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
