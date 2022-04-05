@@ -4,10 +4,14 @@
 #
 #-------------------------------------------------
 QT += sql
+QT +=network
+QT       += core gui network
+QT += widgets
+QT       += printsupport
 QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+CONFIG += console
 TARGET = Atelier_Connexion
 TEMPLATE = app
 
@@ -25,16 +29,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-    agenda.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    myserver.cpp \
+    mythread.cpp \
     staff.cpp
 
 HEADERS += \
-    agenda.h \
         mainwindow.h \
     connection.h \
+    myserver.h \
+    mythread.h \
     staff.h
 
 FORMS += \

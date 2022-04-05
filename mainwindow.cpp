@@ -1,16 +1,24 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "staff.h"
-#include "agenda.h"
 #include "QMessageBox"
 #include <QApplication>
 #include <QIntValidator>
 #include <QSqlQuery>
 #include <QLineEdit>
 #include <QTableWidget>
+#include <QTableWidgetItem>
 #include <QPrinter>
 #include <QFile>
-
+#include<QFileDialog>
+#include <QPrintDialog>
+#include<QPdfWriter>
+#include <QtPrintSupport/QPrinter>
+#include <QTextStream>
+#include <iostream>
+#include <string>
+#include "myserver.h"
+using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -21,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->le_nbh->setValidator( new QIntValidator(0, 48, this));
  ui->tabstaff->setModel(S.afficher());
  ui->le_id_supp->setValidator( new QIntValidator(0, 999999, this));
+
 
 }
 
@@ -59,16 +68,8 @@ else
 
 void MainWindow::on_pb_supprimer_clicked()
 {
-    QSqlQuery query2;
+
 Staff id_staff; id_staff.setid(ui->le_id_supp->text().toInt());
-
-query2.prepare("select id_staff from STAFF where id_staff=:id_staff");
-query2.bindValue(":id_staff",id_staff);
-
-query2.exec();
-query2.next();
-
-int name=query2.value(0).toInt();
 bool test=id_staff.supprimer(id_staff.getid());
 if (test )
 {QMessageBox::information(nullptr,QObject::tr("OK"),
@@ -114,7 +115,7 @@ void MainWindow::on_pb_modifier_clicked()
 
      }
 
-void MainWindow::on_tri_clicked()
+void MainWindow::on_tri_2_clicked()
 {
 
     QSqlQueryModel* model=new QSqlQueryModel();
@@ -129,10 +130,10 @@ void MainWindow::on_tri_clicked()
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("salaire"));
 
 
-     ui->table_view_tri->setModel(model);
+     ui->tri_4->setModel(model);
 
 }
-void MainWindow::on_tri_2_clicked()
+void MainWindow::on_tri_clicked()
 {
     QSqlQueryModel* model=new QSqlQueryModel();
     model->setQuery("select* from STAFF order by salaire ");
@@ -146,7 +147,7 @@ void MainWindow::on_tri_2_clicked()
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("salaire"));
 
 
-     ui->table_view_tri_2->setModel(model);
+     ui->tri_5->setModel(model);
 }
 void MainWindow::on_tri_3_clicked()
 {
@@ -163,117 +164,262 @@ void MainWindow::on_tri_3_clicked()
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("salaire"));
 
 
-     ui->table_view_tri_3->setModel(model);
+     ui->tri_6->setModel(model);
 
 }
 
-/*void MainWindow::on_PDF_clicked()
-{
-    QString strStream;
-               QTextStream out(&strStream);
-                               const int rowCount = ui->show_fact->model()->rowCount();
-                               const int columnCount = ui->show_fact->model()->columnCount();
-                               QString TT = QDate::currentDate().toString("yyyy/MM/dd");
-
-
-
-                               out <<  "<html>\n"
-                                   "<head>\n"
-                                   "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-                                   <<  QString("<title>%1</title>\n").arg("strTitle")
-                                   <<  "</head>\n"
-                                   "<body bgcolor=#ffffff link=#5000A0>\n"
-                                       "<h1 style=\"text-align: center;\">"
-                                       "<strong>                                                      "+TT+" </ strong>"
-
-
-                                  //     "<align='right'> " << datefich << "</align>"
-
-                                   "<center> <H1> LES FACTURES </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
-
-
-                               // headers
-                               out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
-                               for (int column = 0; column < columnCount; column++)
-                                   if (!ui->show_fact->isColumnHidden(column))
-                                       out << QString("<th>%1</th>").arg(ui->show_fact->model()->headerData(column, Qt::Horizontal).toString());
-                               out << "</tr></thead>\n";
-
-                               // data table
-                               for (int row = 0; row < rowCount; row++) {
-                                   out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
-                                   for (int column = 0; column < columnCount; column++) {
-                                       if (!ui->show_fact->isColumnHidden(column)) {
-                                           QString data = ui->show_fact->model()->data(ui->show_fact->model()->index(row, column)).toString().simplified();
-                                           out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-                                       }
-                                   }
-                                   out << "</tr>\n";
-                               }
-                               out <<  "</table> </center>\n"
-                                   "</body>\n"
-                                   "</html>\n";
-
-
-                               QTextDocument *document = new QTextDocument();
-                               document->setHtml(strStream);
-                               QPrinter printer;
-
-                               QPrintDialog *dialog = new QPrintDialog(&printer, nullptr);
-                               if (dialog->exec() == QDialog::Accepted) {
-                                   document->print(&printer);
-                               }
-
-
-                               delete document;
-}
-
-view->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  model->setHeaderData(1, Qt::Horizontal, QObject::tr("lun"));
-  model->setHeaderData(2, Qt::Horizontal, QObject::tr("mar"));
-  model->setHeaderData(3, Qt::Horizontal, QObject::tr("mer"));
-  model->setHeaderData(4, Qt::Horizontal, QObject::tr("jeu"));
-  model->setHeaderData(5, Qt::Horizontal, QObject::tr("ven"));
-  model->setHeaderData(6, Qt::Horizontal, QObject::tr("sam"));
-  model->setHeaderData(6, Qt::Horizontal, QObject::tr("dim"));
-*/
 void MainWindow::on_PDF_clicked()
 {
-    QPrinter printer(QPrinter::PrinterResolution);
-             printer.setOutputFormat(QPrinter::PdfFormat);
-             printer.setPaperSize(QPrinter::A4);
-             printer.setOrientation(QPrinter::Landscape);
-             printer.setOutputFileName(strFile);
+    QSqlDatabase DRY_CLEANER;
+                QTableView tablemateriel;
+                QSqlQueryModel * Modal=new  QSqlQueryModel();
 
-             QTextDocument doc;
-             QString style("<style>");
-             style.append("table { border-collapse: collapse;font-size:10px; }");
-             style.append("table, th, td { border: 1px solid black;text-align: left; }");
-             //style.append("th, td { border: 1px solid black;text-align: left; }");
-             style.append("</style>");
+                QSqlQuery qry;
+                 qry.prepare("SELECT * FROM EMPLOIS ");
+                 qry.exec();
+                 Modal->setQuery(qry);
+                 tablemateriel.setModel(Modal);
 
-             QString text("<table><thead>");
-             text.append("<tr>");
-             for (int i = 0; i < emplois->columnCount(); i++) {
-                 text.append("<th>").append(emplois->horizontalHeaderItem(i)->data(Qt::DisplayRole).toString()).append("</th>");
-             }
-             text.append("</tr></thead>");
-             text.append("<tbody>");
-             for (int i = 0; i < emplois->rowCount(); i++) {
-                 text.append("<tr>");
-                 for (int j = 0; j < emplois->columnCount(); j++) {
-                     QTableWidgetItem *item = emplois->item(i, j);
-                     if (!item || item->text().isEmpty()) {
-                         emplois->setItem(i, j, new QTableWidgetItem("0"));
+
+                 DRY_CLEANER.close();
+
+                 QString strStream;
+                 QTextStream out(&strStream);
+
+
+                 const int rowCount = tablemateriel.model()->rowCount();
+                 const int columnCount =  tablemateriel.model()->columnCount();
+
+                 const QString strTitle ="Document";
+
+
+                 out <<  "<html>\n"
+                         "<img src='C:/Users/LENOVO/Documents/login/images/bg.png' height='120' width='120'/>"
+                     "<head>\n"
+                         "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                     <<  QString("<title>%1</title>\n").arg(strTitle)
+                     <<  "</head>\n"
+                     "<body bgcolor=#ffffff link=#5000A0>\n"
+                    << QString("<h3 style=\" font-size: 50px; font-family: Arial, Helvetica, sans-serif; color: #e80e32; font-weight: lighter; text-align: center;\">%1</h3>\n").arg("Liste des materiels")
+                    <<"<br>"
+
+                    <<"<table border=1 cellspacing=0 cellpadding=2 width=\"100%\">\n";
+                 out << "<thead><tr bgcolor=#f0f0f0>";
+                 for (int column = 0; column < columnCount; column++)
+                     if (!tablemateriel.isColumnHidden(column))
+                         out << QString("<th>%1</th>").arg(tablemateriel.model()->headerData(column, Qt::Horizontal).toString());
+                 out << "</tr></thead>\n";
+
+                 for (int row = 0; row < rowCount; row++) {
+                     out << "<tr>";
+                     for (int column = 0; column < columnCount; column++) {
+                         if (!tablemateriel.isColumnHidden(column)) {
+                             QString data = tablemateriel.model()->data(tablemateriel.model()->index(row, column)).toString().simplified();
+                             out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                         }
                      }
-                     text.append("<td>").append(emplois->item(i, j)->text()).append("</td>");
+                     out << "</tr>\n";
                  }
-                 text.append("</tr>");
-             }
-             text.append("</tbody></table>");
-             doc.setDefaultStyleSheet(style);
-             doc.setHtml(text);
-             doc.setPageSize(printer.pageRect().size());
-             doc.print(&printer);
+                 out <<  "</table>\n"
+                         "<br><br>"
+                         <<"<br>"
+                         <<"<table border=1 cellspacing=0 cellpadding=2>\n";
+
+                     out << "<thead><tr bgcolor=#f0f0f0>";
+
+                         out <<  "</table>\n"
+
+                     "</body>\n"
+                     "</html>\n";
+
+                 QTextDocument *document = new QTextDocument();
+                 document->setHtml(strStream);
+
+                 QPrinter printer;
+                 QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+                 if (dialog->exec() == QDialog::Accepted) {
+
+                     document->print(&printer);
+                 }
+
+                 printer.setOutputFormat(QPrinter::PdfFormat);
+                 printer.setPaperSize(QPrinter::A4);
+                 printer.setOutputFileName("/tmp/emplois.pdf");
+                 printer.setPageMargins(QMarginsF(15, 15, 15, 15));
+
+                 delete document;
+
 }
 
+void MainWindow::tablewidgetdisplay()
+{
+  QTableWidget * emplois_2 =  new QTableWidget (this);
+  emplois_2->setRowCount(2);
+  emplois_2->setColumnCount(7);
+  this ->setCentralWidget(emplois_2);
+}
+
+/*void MainWindow::readdisplaytable()
+{ QSqlQuery query;
+    query.prepare("SELECT * FROM EMPLOIS");
+    int i=0;
+QString s;
+
+    while (query.next())
+    { s=query.value(0).toString();
+        cout<<s.toStdString();
+        ui->emplois_2->setItem(i,0,new QTableWidgetItem(query.value(0).toString()));
+         ui->emplois_2->setItem(i,1,new QTableWidgetItem(query.value(1).toString()));
+          ui->emplois_2->setItem(i,2,new QTableWidgetItem(query.value(2).toString()));
+           ui->emplois_2->setItem(i,3,new QTableWidgetItem(query.value(3).toString()));
+            ui->emplois_2->setItem(i,4,new QTableWidgetItem(query.value(4).toString()));
+             ui->emplois_2->setItem(i,5,new QTableWidgetItem(query.value(5).toString()));
+      ui->emplois_2->setItem(i,6,new QTableWidgetItem(query.value(6).toString()));
+     i++;
+    }
+}
+*/
+
+
+
+void MainWindow::on_effectuer_clicked()
+{
+
+
+
+
+   QSqlQuery query;
+        query.prepare("SELECT * FROM EMPLOIS");
+       query.exec();
+        int i=0;
+    QString s;
+
+        while (query.next())
+        {// s=query.value(0).toString();
+           // cout<<s.toStdString()<<"freifhreiu";
+            ui->emplois_2->setItem(i,0,new QTableWidgetItem(query.value(0).toString()));
+            ui->emplois_2->setItem(i,1,new QTableWidgetItem(query.value(1).toString()));
+            ui->emplois_2->setItem(i,2,new QTableWidgetItem(query.value(2).toString()));
+            ui->emplois_2->setItem(i,3,new QTableWidgetItem(query.value(3).toString()));
+            ui->emplois_2->setItem(i,4,new QTableWidgetItem(query.value(4).toString()));
+            ui->emplois_2->setItem(i,5,new QTableWidgetItem(query.value(5).toString()));
+            ui->emplois_2->setItem(i,6,new QTableWidgetItem(query.value(6).toString()));
+
+
+            i++;
+        }
+
+       /* ui->emplois_2->cellChanged(0,1);
+
+        query.prepare("INSERT INTO emplois (lun) "
+                      "VALUES (:lun");
+        query.bindValue(":lun", lun);
+
+       query.exec();
+        QTableWidgetItem *item =ui->emplois_2->currentItem();
+        QString lun= item->text();
+         cout<<lun.toStdString();
+
+
+        QString text = ui->emplois_2->item(0,0)->text();
+        cout<<text.toStdString();*/
+
+
+}
+
+
+
+void MainWindow::on_modifier_clicked()
+{
+    ui->emplois_2->cellChanged(0,0);
+    QString text = ui->emplois_2->item(0,0)->text();
+    cout<<text.toStdString();
+
+    /*query.prepare("INSERT INTO emplois (lun) "
+                  "VALUES (:lun");
+    query.bindValue(":lun", lun);
+
+   query.exec();
+    QTableWidgetItem *item =ui->emplois_2->currentItem();
+    QString lun= item->text();
+     cout<<lun.toStdString();
+*/
+
+
+
+
+
+}
+/*
+void QTableWidget::cellChanged(int row,int column)
+{
+   QSqlQuery query ;
+QString str;
+QTableWidgetItem* itme = ui.emplois_2->item( row, column );
+if (itm)
+str = itm->text();
+   query.prepare("update EMPLOIS set  ");
+   query.exec();
+
+}*/
+
+
+void MainWindow::on_start_s_clicked()
+{
+    myserver server;
+    server.startserver();
+
+}
+
+/*
+void MainWindow::on_envoyer_clicked()
+{
+    // This is a first demo application of the SmtpClient for Qt project
+
+        // First we need to create an SmtpClient object
+        // We will use the Gmail's smtp server (smtp.gmail.com, port 465, ssl)
+
+        SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
+
+        // We need to set the username (your email address) and the password
+        // for smtp authentification.
+
+        smtp.setUser("karimchecambou123@gmail.com");
+        smtp.setPassword("livealifeuwillremember.");
+
+        // Now we create a MimeMessage object. This will be the email.
+
+        MimeMessage message;
+        QString mal =ui->mail->text();
+        QString sub =ui->subject->text();
+        QString com =ui->commande->toPlainText();
+        message.setSender(new EmailAddress("karimchecambou123@gmail.com", "chkampawlow"));
+        message.addRecipient(new EmailAddress(mal, "karim checambou"));
+        message.setSubject(sub);
+
+        // Now add some text to the email.
+        // First we create a MimeText object.
+
+        MimeText text;
+
+        text.setText(com);
+
+        // Now add it to the mail
+
+        message.addPart(&text);
+
+        // Now we can send the mail
+
+        smtp.connectToHost();
+        smtp.login();
+        if(smtp.sendMail(message))
+        {
+            QMessageBox::information(this,"ok","message envoyer");
+        }
+        else
+        {
+            QMessageBox::critical(this,"Error","message non envoyer");
+        }
+        smtp.quit();
+}
+*/
