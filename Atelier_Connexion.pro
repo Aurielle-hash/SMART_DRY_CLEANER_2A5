@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql network
 QT       += sql
 CONFIG += console
 
@@ -28,14 +28,43 @@ CONFIG += c++11
 
 SOURCES += \
     client.cpp \
+    mail/emailaddress.cpp \
+    mail/mimeattachment.cpp \
+    mail/mimecontentformatter.cpp \
+    mail/mimefile.cpp \
+    mail/mimehtml.cpp \
+    mail/mimeinlinefile.cpp \
+    mail/mimemessage.cpp \
+    mail/mimemultipart.cpp \
+    mail/mimepart.cpp \
+    mail/mimetext.cpp \
+    mail/quotedprintable.cpp \
+    mail/smtpclient.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    qr_code.cpp \
+    qrcodegen.cpp
 
 HEADERS += \
     client.h \
+    mail/SmtpMime \
+    mail/emailaddress.h \
+    mail/mimeattachment.h \
+    mail/mimecontentformatter.h \
+    mail/mimefile.h \
+    mail/mimehtml.h \
+    mail/mimeinlinefile.h \
+    mail/mimemessage.h \
+    mail/mimemultipart.h \
+    mail/mimepart.h \
+    mail/mimetext.h \
+    mail/quotedprintable.h \
+    mail/smtpclient.h \
         mainwindow.h \
-    connection.h
+    connection.h \
+    qr_code.h \
+    qrcodegen.hpp
 
 FORMS += \
         mainwindow.ui

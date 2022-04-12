@@ -35,11 +35,23 @@ private slots:
 
     void on_pushButtonrechercher_clicked();
 
-    void on_pushButton_clicked();
-
     void on_pushButton_pdf_clicked();
 
     void on_pushButton_excel_clicked();
+
+    void on_pushButtoncode_clicked();
+
+    void on_geta1_clicked();
+
+    void on_geta2_clicked();
+
+    void on_geta3_clicked();
+
+    void on_geta4_clicked();
+
+    void on_envoyer_mail_3_clicked();
+
+    QStringList getRecipientsAddress(QString str);
 
 private:
     Ui::MainWindow *ui;

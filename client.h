@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QMessageBox>
+#include "qr_code.h"
 
 
 class client
@@ -25,6 +26,8 @@ private:
 public:
     client();
     client(int, int, QString, QString, QString, QString, int);
+
+    QR_Code qrCode;
 
     int getid_clt();
     int getid();

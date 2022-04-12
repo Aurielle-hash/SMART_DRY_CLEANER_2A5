@@ -151,7 +151,7 @@ QSqlQueryModel * client::trierD(QString valeur)
 QSqlQueryModel* client::rechercher(QString valeur){
 
    QSqlQueryModel * model =new QSqlQueryModel();
-   QString query="select * from client where ID_CLT like '%"+valeur+"%'";
+   QString query="select * from client where ID_CLT like '%"+valeur+"%' or NOM like '%"+valeur+"%' or PRENOM like '%"+valeur+"%'";
 
    model->setQuery(query);
    return model;

@@ -17,9 +17,12 @@
 #include <QPdfWriter>
 #include <QDesktopServices>
 #include <QUrl>
+#include "mail/SmtpMime"
 #include <QtCharts/QChartView>
 //#include <QPieSlice>
 //#include <QPieSeries>
+#include <QLineEdit>
+#include<QTextEdit>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView_Afficher->setModel(C.afficher());
     ui->comboBoxSup->setModel(C.afficherValeur("ID_CLT"));
     ui->comboBoxmod->setModel(C.afficherValeur("ID_CLT"));
+    ui->comboBoxCode->setModel(C.afficherValeur("ID_CLT"));
     ui->comboBoxArticleA->setModel(C.afficherValeurArticle("ID"));
     ui->comboBoxArticleM->setModel(C.afficherValeurArticle("ID"));
 
@@ -89,6 +93,7 @@ void MainWindow::on_pushButton_Ajouter_clicked()
                     msgBox.setText("Ajout avec succes");
                     ui->comboBoxmod->setModel(C.afficherValeur("ID_CLT"));
                     ui->comboBoxSup->setModel(C.afficherValeur("ID_CLT"));
+                    ui->comboBoxCode->setModel(C.afficherValeur("ID_CLT"));
 
                 }
                 else
@@ -108,6 +113,7 @@ void MainWindow::on_pushButton_Supprimer_clicked()
         msgBox.setText("Suppression avec succes");
         ui->comboBoxSup->setModel(C.afficherValeur("ID_CLT"));
         ui->comboBoxmod->setModel(C.afficherValeur("ID_CLT"));
+        ui->comboBoxCode->setModel(C.afficherValeur("ID_CLT"));
 
     }
     else
@@ -241,7 +247,7 @@ void MainWindow::on_pushButton_pdf_clicked()
           int i = 4000;
           painter.setPen(Qt::red);
           painter.setFont(QFont("Arial", 30));
-          painter.drawPixmap(QRect(200,200,2000,2000),QPixmap("C:/Users/aboub/Desktop/teasing.png"));
+          painter.drawPixmap(QRect(200,200,2000,2000),QPixmap("C:/Users/aboub/Desktop/lavandiere.png"));
           painter.drawText(3000,1500,"LISTE DES CLIENTS");
           painter.setPen(Qt::black);
           painter.setFont(QFont("Arial", 50));
@@ -327,4 +333,189 @@ void MainWindow::on_pushButton_excel_clicked()
                                                  QObject::tr("Fichier Générer avec succès .\n"
                                                              "Click OK to exit."), QMessageBox::Ok);
                    }
+}
+
+
+
+void MainWindow::on_pushButtoncode_clicked()
+{
+    QString idC=ui->comboBoxCode->currentText();
+
+    std::string idCQr="0000000000000000000000000000"+idC.toStdString();
+
+                int n = idCQr.length();
+                char char_array[n + 1];  //chaine qui va contenir l'identifiant a etre encode
+                strcpy(char_array, idCQr.c_str());//copie de la chaine qui va contenir l'identifiant a etre encode
+
+
+
+                /*const QrCode::Ecc errCorLvl = QrCode::Ecc::HIGH;  // Error correction level
+                const QrCode qr = QrCode::encodeText(char_array, errCorLvl); //generation du code QR
+                C.qrCode.printRecu(qr,idCQr);*/
+                std::vector<uint8_t> bytes(char_array, char_array + std::strlen(char_array));
+                            const QrCode qr = QrCode::encodeSegments(
+                                    {QrSegment::makeBytes(bytes)},
+                                        QrCode::Ecc::HIGH);
+                            C.qrCode.printRecu(qr,idCQr);
+}
+
+/////////////////////////////////////MAIL
+
+QStringList MainWindow::getRecipientsAddress(QString str)
+{
+
+    QStringList recipients;
+
+    recipients = str.split(QRegExp(";"));
+
+    return recipients;
+}
+
+/*void MainWindow::on_tb_getAttach1_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->le_emailAttach1->setText(fileName);
+
+}
+
+void MainWindow::on_tb_getAttach2_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->le_emailAttach2->setText(fileName);
+}
+
+void MainWindow::on_tb_getAttach3_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->le_emailAttach3->setText(fileName);
+}
+
+void MainWindow::on_tb_getAttach4_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->le_emailAttach4->setText(fileName);
+}*/
+
+
+
+void MainWindow::on_geta1_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->attach1->setText(fileName);
+}
+
+void MainWindow::on_geta2_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->attach2->setText(fileName);
+}
+
+void MainWindow::on_geta3_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->attach3->setText(fileName);
+}
+
+void MainWindow::on_geta4_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("All Files (*.*)"));
+
+    ui->attach4->setText(fileName);
+}
+
+void MainWindow::on_envoyer_mail_3_clicked()
+{
+    if(ui->lineEdit->text() != NULL && ui->lineEdit_2->text() !=NULL){
+        if(ui->lineEdit_3->text().toInt() != 0 && ui->lineEdit_4->text()!= NULL){
+            if(ui->lineEdit_5->text() != NULL && ui->le_toAdd_3->text() != NULL){
+
+                SmtpClient smtp(ui->lineEdit_4->text(), ui->lineEdit_3->text().toInt(), SmtpClient::SslConnection);
+
+                smtp.setUser(ui->lineEdit->text());
+                smtp.setPassword(ui->lineEdit_2->text());
+
+                MimeMessage message;
+
+                EmailAddress sender(ui->lineEdit_5->text(), ui->lineEdit_9->text());
+                message.setSender(&sender);
+
+                //create list of to
+                QStringList to = getRecipientsAddress(ui->le_toAdd_3->text());
+                QStringList cc = getRecipientsAddress(ui->le_ccAdd_3->text());
+                QStringList bcc = getRecipientsAddress(ui->le_bccAdd_3->text());
+
+                for (QStringList::iterator it = to.begin();it != to.end(); ++it) {
+                     message.addRecipient(new EmailAddress(*it),MimeMessage::To);
+                }
+                for (QStringList::iterator it = cc.begin();it != cc.end(); ++it) {
+                     message.addRecipient(new EmailAddress(*it),MimeMessage::Cc);
+                }
+                for (QStringList::iterator it = bcc.begin();it != bcc.end(); ++it) {
+                     message.addRecipient(new EmailAddress(*it),MimeMessage::Bcc);
+                }
+
+                //set message subject
+                message.setSubject(ui->objet->text());
+
+                MimeText text;
+                text.setText(ui->le_emailContent->document()->toPlainText());
+                message.addPart(&text);
+
+                MimeAttachment attachment1(new QFile(ui->attach1->text()));
+                MimeAttachment attachment2(new QFile(ui->attach2->text()));
+                MimeAttachment attachment3(new QFile(ui->attach3->text()));
+                MimeAttachment attachment4(new QFile(ui->attach4->text()));
+
+                //attachments
+                if(ui->attach1->text() != NULL){
+                   message.addPart(&attachment1);
+                }
+
+                if(ui->attach2->text() != NULL){
+                    message.addPart(&attachment2);
+                }
+
+                if(ui->attach3->text() != NULL){
+                    message.addPart(&attachment3);
+                }
+
+                if(ui->attach4->text() != NULL){
+                    message.addPart(&attachment4);
+                }
+
+
+                 if (!smtp.connectToHost()) {
+                     QMessageBox::critical(this,"Failed to connect","Cannot connect to host");
+                     //return -1;
+                 }
+
+                 if (!smtp.login()) {
+                     QMessageBox::critical(this,"Failed to connect","Failed to login");
+                    // return -2;
+                 }
+
+                 smtp.sendMail(message);
+
+                 QMessageBox::information(this,"Email Send","Operation completed succesfully!");
+
+                 smtp.quit();
+
+            }else QMessageBox::information(this,"Fill info", "please input senders addres and reciever addres");
+        }else QMessageBox::information(this,"Fill info", "please input port and smtp");
+    }else QMessageBox::information(this,"Fill info", "please input username and password");
 }
