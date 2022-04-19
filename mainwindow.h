@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <materiel.h>
 #include<QSystemTrayIcon>
+#include "arduino.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -42,9 +43,24 @@ private slots:
     void on_pushButton_8_clicked();
 
 
+    void on_start_c_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+    void on_pb_server_clicked();
+
+    void on_button_verifier_clicked();
+
 private:
     Ui::MainWindow *ui;
     stock S;
      QSystemTrayIcon *mSystemTrayIcon;
+
+     QByteArray data; // variable contenant les données reçues
+
+     Arduino A; // objet temporaire
+
 };
 #endif // MAINWINDOW_H

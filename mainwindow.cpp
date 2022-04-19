@@ -18,8 +18,8 @@
 #include<QPainter>
 #include<QDesktopServices>
 #include<QFileDialog>
-
-
+#include "mythread.h"
+#include"myserver.h"
 #include<QSystemTrayIcon>
 
 
@@ -28,8 +28,24 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //********** ARDUINO CODE
+
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+    switch(ret){
+    case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+        break;
+    case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+       break;
+    case(-1):qDebug() << "arduino is not available";
+    }
+     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+     //le slot update_label suite à la reception du signal readyRead (reception des données).
+
+     //********** ARDUINO YOUFA
+
     mSystemTrayIcon=new QSystemTrayIcon(this);
-    mSystemTrayIcon->setIcon(QIcon(":/test.png"));
+    mSystemTrayIcon->setIcon(QIcon(":/test1.png"));
     mSystemTrayIcon ->setVisible(true);
 
     ui->tablemateriel->setModel(S.afficher());
@@ -38,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->le_id_3->setValidator(new QIntValidator (0,9999,this));
 
     ui->le_id->setValidator(new QIntValidator (0,9999,this));
+    ui->le_nom->setValidator(new QRegExpValidator(QRegExp("[A-Za-z_]{0,20}"),this));
+    ui->le_cat->setValidator(new QRegExpValidator(QRegExp("[A-Za-z_]{0,20}"),this));
+
     }
 
 MainWindow::~MainWindow()
@@ -87,21 +106,23 @@ void MainWindow::on_pb_ajout_clicked()
     int quantite=ui->le_quantite->text().toInt();
     QString nom=ui->le_nom->text();
     QString categorie=ui->le_cat->text();
-    qreal prix=ui->le_prix->text().toInt();
+    qreal prix=ui->le_prix->text().toFloat();
 stock S(id,quantite,nom,categorie,prix);
-bool test=S.ajouter();
  QMessageBox msgBox;
-if (test)
+ bool test= S.ajouter();
+ if (test)
 
-   { msgBox.setText("ajout avec succes");}
-if (quantite<5)
-{ mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
+    { msgBox.setText("ajout avec succes");}
+ if (quantite<5)
+ { mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
 
-else
+ else
 
-   { msgBox.setText("echec ");}
-msgBox.exec();
-ui->tablemateriel->setModel(S.afficher());
+    { msgBox.setText("echec ");}
+ msgBox.exec();
+ ui->tablemateriel->setModel(S.afficher());
+
+
 
 }
 
@@ -119,15 +140,22 @@ void MainWindow::on_pb_modifier_clicked()
            test=S.modifier(id,quantite,nom,categorie,prix);
            if(test)
            {
+
+
+
               ui->tablemateriel->setModel(S.afficher());
 
               QMessageBox::information(nullptr,QObject::tr("OK"),
                 QObject::tr(" modifier avec succes") ,QMessageBox::Ok);
 
+
              }else
 
                  QMessageBox::critical(nullptr,QObject::tr("Not Ok"),
                    QObject::tr("Erreur !.\n""Click Ok to exit."), QMessageBox::Ok);
+
+           if (quantite<5)
+           { mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
 }
 
 
@@ -282,21 +310,55 @@ void MainWindow::on_pushButton_8_clicked()
 
 
                            
-    
 
-    
+void MainWindow::on_start_c_clicked()
+{
+
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    //trinom
+
+    QSqlQueryModel* model=new QSqlQueryModel();
+    model->setQuery("select* from stock order by nom_materiel desc ");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("id_stock"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom_materiel"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("categorie"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("quantite"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("prix_materiel"));
+
+     ui->tablemateriel->setModel(model);
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    //triprix
 
 
 
+    QSqlQueryModel* model=new QSqlQueryModel();
+    model->setQuery("select* from stock order by prix_materiel desc ");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("id_stock"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom_materiel"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("categorie"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("quantite"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("prix_materiel"));
+
+     ui->tablemateriel->setModel(model);
+}
 
 
 
+void MainWindow::on_pb_server_clicked()
+{
+    myserver server;
+    server.startserver();
+}
 
+void MainWindow::on_button_verifier_clicked()
+{
 
-
-
-
-
-
-
-
+        A.write_to_arduino("1"); //envoyer 1 à arduino
+}
