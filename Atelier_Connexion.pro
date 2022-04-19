@@ -4,12 +4,12 @@
 #
 #-------------------------------------------------
 QT += sql
-QT +=network
+QT += core network
 QT       += core gui network
 QT += widgets
 QT       += printsupport
 QT       += core gui sql
-
+QT += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += console
 TARGET = Atelier_Connexion
@@ -28,23 +28,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+
+
 SOURCES += \
+    Dialog.cpp \
+    arduino.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
     myserver.cpp \
     mythread.cpp \
+    newStaff.cpp \
     staff.cpp
 
 HEADERS += \
+    Dialog.h \
+    arduino.h \
         mainwindow.h \
     connection.h \
     myserver.h \
     mythread.h \
+    newStaff.h \
     staff.h
 
 FORMS += \
-        mainwindow.ui
+        dialog.ui \
+        mainwindow.ui \
+        newStaff.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include "mythread.h"
+//class myserver;
 
 class myserver : public QTcpServer
 { Q_OBJECT
@@ -19,4 +20,13 @@ protected:
 
 };
 
+/*
+class myserver : public QTcpServer
+{
+public:
+  myserver (QObject *parent = nullptr);
+private:
+  QList<myserver *> mSockets ;
+};
+*/
 #endif // SERVER_H

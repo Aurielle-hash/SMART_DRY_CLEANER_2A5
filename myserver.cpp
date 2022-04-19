@@ -1,5 +1,7 @@
 #include "myserver.h"
+#include "mythread.h"
 #include <QThread>
+#include <QDebug>
 myserver::myserver(QObject *parent): QTcpServer(parent)
 {
 
@@ -24,3 +26,9 @@ thread ->start();
 
 
    }
+/*
+myserver::myserver(QObject *parent): QTcpServer(parent)
+{
+
+}
+*/

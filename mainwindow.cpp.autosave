@@ -369,7 +369,7 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date)
 
 
 void MainWindow::update_label()
-{
+{    QSqlQuery query;
     data=A.read_from_arduino();
     Dialog *dialog;
     newStaff *newStaff;

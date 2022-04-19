@@ -35,3 +35,14 @@ void mythread::disconnected()
     socket->deleteLater();
     exit(0);
 }
+/*
+mythread::mythread(qintptr handle, QObject *parent):QTcpSocket(parent)
+{
+    setSocketDescriptor(handle);
+    connect(this, & mythread::readyRead, [&]()
+    {
+        emit dureadyread(this);
+    });
+};
+
+*/
