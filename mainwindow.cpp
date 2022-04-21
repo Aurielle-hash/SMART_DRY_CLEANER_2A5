@@ -109,22 +109,27 @@ void MainWindow::on_pb_ajout_clicked()
     qreal prix=ui->le_prix->text().toFloat();
 stock S(id,quantite,nom,categorie,prix);
  QMessageBox msgBox;
+
+
+
+
  bool test= S.ajouter();
- if (test)
+  if (test)
 
-    { msgBox.setText("ajout avec succes");}
- if (quantite<5)
- { mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
+     { msgBox.setText("ajout avec succes");}
+  if (quantite<5)
+  { mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
 
- else
+  else
 
-    { msgBox.setText("echec ");}
- msgBox.exec();
- ui->tablemateriel->setModel(S.afficher());
+     { msgBox.setText("echec ");}
+  msgBox.exec();
+  ui->tablemateriel->setModel(S.afficher());
+
+ }
 
 
 
-}
 
 
 void MainWindow::on_pb_modifier_clicked()
@@ -134,29 +139,32 @@ void MainWindow::on_pb_modifier_clicked()
     float prix=ui->le_prix_3->text().toInt();
     QString nom=ui->le_nom_3->text();
     QString categorie=ui->le_cat_3->text();
+    bool   test=S.modifier(id,quantite,nom,categorie,prix);
+    if(id!=0)
+              {
 
-    stock S;
-           bool test;
-           test=S.modifier(id,quantite,nom,categorie,prix);
-           if(test)
-           {
+              if(test)
+              {
 
-
-
-              ui->tablemateriel->setModel(S.afficher());
-
-              QMessageBox::information(nullptr,QObject::tr("OK"),
-                QObject::tr(" modifier avec succes") ,QMessageBox::Ok);
-
-
-             }else
-
-                 QMessageBox::critical(nullptr,QObject::tr("Not Ok"),
-                   QObject::tr("Erreur !.\n""Click Ok to exit."), QMessageBox::Ok);
-
-           if (quantite<5)
-           { mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
+              QMessageBox::information(nullptr, QObject::tr("modifier un stock"),
+                                QObject::tr("stock modifié.\n"
+                                            "Click Cancel to exit."), QMessageBox::Cancel);
+              if (quantite<5)
+                                { mSystemTrayIcon->showMessage(tr("alerte"),tr("la quantite du produit est faible"));}
+              }
+                else{
+                    QMessageBox::critical(nullptr, QObject::tr("modifier un stock "),
+                                QObject::tr("Erreur !.\n"
+                                            "Click Cancel to exit."), QMessageBox::Cancel);
+              }
+              }
+              else {
+                  QMessageBox::critical(nullptr, QObject::tr("id n'existe pas "),
+                              QObject::tr("veuillez saisir l'id du produit .\n"
+                               "Click Cancel to exit."), QMessageBox::Cancel);
+             }
 }
+
 
 
 void MainWindow::on_tri_clicked()
@@ -359,6 +367,11 @@ void MainWindow::on_pb_server_clicked()
 
 void MainWindow::on_button_verifier_clicked()
 {
+        stock s;
 
-        A.write_to_arduino("1"); //envoyer 1 à arduino
+        if(s.verif())
+        {
+            A.write_to_arduino("1"); //envoyer 1 à arduino
+
+        }
 }

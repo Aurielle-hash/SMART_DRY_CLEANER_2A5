@@ -1,5 +1,6 @@
-QT       += core gui sql
+QT       += core gui sql serialport
 QT       += printsupport
+QT  +=network
  QT += widgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,18 +18,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arduino.cpp \
     connexion.cpp \
     main.cpp \
     mainwindow.cpp \
-    materiel.cpp
+    materiel.cpp \
+    myserver.cpp \
+    mythread.cpp
 
 HEADERS += \
+    arduino.h \
     connexion.h \
     mainwindow.h \
-    materiel.h
+    materiel.h \
+    myserver.h \
+    mythread.h
 
 FORMS += \
     mainwindow.ui
+QMAKE_CXXFLAGS +=-std=gnu++14
 
 TRANSLATIONS += \
     interfacee_en_US.ts
@@ -39,4 +47,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    icon.qrc \
     image.qrc

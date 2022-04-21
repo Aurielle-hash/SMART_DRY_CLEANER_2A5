@@ -42,13 +42,15 @@ public:
     bool modifier(int id_stock,int quantite,QString nom_materiel,QString categorie ,float prix_materiel);
 QSqlQueryModel* afficher();
 QSqlQueryModel * tri_prix_materiel();
+QSqlQueryModel * tri_nom_materiel();
+
 bool rech(int );
 QSqlQueryModel* rechercher(QString );
 bool rechprix(int );
 QSqlQueryModel* rechercherprix(QString );
 bool rechquantite(int );
 QSqlQueryModel* rechercherquantite(QString );
-int  Notifier();
+bool verif();
 };
 
 #endif // MATERIEL_H

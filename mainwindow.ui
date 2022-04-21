@@ -20,7 +20,7 @@
       <x>50</x>
       <y>20</y>
       <width>911</width>
-      <height>661</height>
+      <height>681</height>
      </rect>
     </property>
     <property name="palette">
@@ -493,7 +493,7 @@ text-decoration: underline;</string>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>300</y>
+        <y>320</y>
         <width>811</width>
         <height>251</height>
        </rect>
@@ -502,10 +502,10 @@ text-decoration: underline;</string>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>20</x>
         <y>20</y>
         <width>381</width>
-        <height>171</height>
+        <height>201</height>
        </rect>
       </property>
       <property name="palette">
@@ -619,8 +619,8 @@ text-decoration: underline;</string>
       <widget class="QPushButton" name="pushButton_4">
        <property name="geometry">
         <rect>
-         <x>210</x>
-         <y>100</y>
+         <x>180</x>
+         <y>40</y>
          <width>121</width>
          <height>31</height>
         </rect>
@@ -633,7 +633,7 @@ text-decoration: underline;</string>
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>60</y>
+         <y>40</y>
          <width>201</width>
          <height>41</height>
         </rect>
@@ -706,6 +706,58 @@ text-decoration: underline;</string>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>171</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>nom_materiel</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>100</y>
+         <width>121</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>tri_nom</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>160</y>
+         <width>161</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>prix materiel</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>160</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>tri prix</string>
        </property>
       </widget>
      </widget>
@@ -881,7 +933,7 @@ text-decoration: underline;</string>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>200</y>
+        <y>230</y>
         <width>91</width>
         <height>81</height>
        </rect>
@@ -900,7 +952,7 @@ text-decoration: underline;</string>
       <property name="geometry">
        <rect>
         <x>690</x>
-        <y>560</y>
+        <y>570</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -910,6 +962,32 @@ text-decoration: underline;</string>
       </property>
       <property name="text">
        <string>exportpdf</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>570</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_verifier">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>270</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Verifier</string>
       </property>
      </widget>
     </widget>
@@ -1400,260 +1478,6 @@ text-decoration: underline;</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_6">
-     <attribute name="title">
-      <string>notification system</string>
-     </attribute>
-     <widget class="QLabel" name="label_13">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>60</y>
-        <width>101</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>114</red>
-            <green>152</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>114</red>
-            <green>152</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>120</red>
-            <green>120</green>
-            <blue>120</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial Black</family>
-        <pointsize>14</pointsize>
-        <weight>10</weight>
-        <italic>false</italic>
-        <bold>false</bold>
-        <underline>true</underline>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 75 18pt &quot;MS Shell Dlg 2&quot;;
-text-decoration: underline;
-font: 87 14pt &quot;Arial Black&quot;;
-text-decoration: underline;</string>
-      </property>
-      <property name="text">
-       <string>Stock</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_14">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>110</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>114</red>
-            <green>152</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>114</red>
-            <green>152</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>120</red>
-            <green>120</green>
-            <blue>120</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 87 14pt &quot;Arial Black&quot;;
-text-decoration: underline;</string>
-      </property>
-      <property name="text">
-       <string>out</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_15">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>170</y>
-        <width>47</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>114</red>
-            <green>152</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>114</red>
-            <green>152</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="WindowText">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>120</red>
-            <green>120</green>
-            <blue>120</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 87 14pt &quot;Arial Black&quot;;
-text-decoration: underline;</string>
-      </property>
-      <property name="text">
-       <string>in</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_12">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>60</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_13">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>110</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lineEdit_14">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>170</y>
-        <width>121</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="notifier_lina">
-      <property name="geometry">
-       <rect>
-        <x>560</x>
-        <y>260</y>
-        <width>211</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>notifier</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_25">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>240</y>
-        <width>56</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_26">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>60</y>
-        <width>81</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>../photoqt/images.png</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </widget>
     <widget class="QWidget" name="tab_7">
      <attribute name="title">
       <string>chat</string>
@@ -1930,6 +1754,32 @@ text-decoration: underline;</string>
        </property>
       </widget>
      </widget>
+     <widget class="QPushButton" name="start_c">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>450</y>
+        <width>171</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>start client</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pb_server">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>470</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>server</string>
+      </property>
+     </widget>
      <zorder>groupBox_3</zorder>
      <zorder>label_16</zorder>
      <zorder>label_17</zorder>
@@ -1938,11 +1788,69 @@ text-decoration: underline;</string>
      <zorder>label_20</zorder>
      <zorder>dateEdit_2</zorder>
      <zorder>pushButton_6</zorder>
+     <zorder>start_c</zorder>
+     <zorder>pb_server</zorder>
+    </widget>
+    <widget class="QWidget" name="tab_6">
+     <attribute name="icon">
+      <iconset resource="icon.qrc">
+       <normaloff>:/test.png</normaloff>:/test.png</iconset>
+     </attribute>
+     <attribute name="title">
+      <string>notification system</string>
+     </attribute>
+     <widget class="QPushButton" name="notifier_lina">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>260</y>
+        <width>211</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>notifier</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_25">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>240</y>
+        <width>56</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_26">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>60</y>
+        <width>81</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>../photoqt/images.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
 </ui>

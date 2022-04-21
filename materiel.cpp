@@ -55,7 +55,7 @@ void stock::setCategorie(QString categorie){
 bool stock::ajouter()
 {
  QSqlQuery query;
-query.prepare("INSERT INTO stock(id_stock,categorie,nom_materiel,,quantite,prix_materiel)"
+query.prepare("INSERT INTO stock(id_stock,categorie,nom_materiel,quantite,prix_materiel)"
               "VALUES (:id_stock,:categorie,:nom_materiel,:quantite,:prix_materiel)");
 QString id_string= QString::number(id_stock);
 query.bindValue(":id_stock",id_string);
@@ -113,6 +113,24 @@ return query.exec();
 
 
 
+
+
+
+
+QSqlQueryModel * stock::tri_nom_materiel(){
+    QSqlQueryModel *model=new QSqlQueryModel();
+    model->setQuery("select * from stock order by nom_materiel ");
+    model->setHeaderData(0,Qt::Horizontal,QObject::tr("id_stock"));
+      model->setHeaderData(1,Qt::Horizontal,QObject::tr("nom_materiel"));
+      model->setHeaderData(2,Qt::Horizontal,QObject::tr("categorie"));
+      model->setHeaderData(3,Qt::Horizontal,QObject::tr("quantite"));
+      model->setHeaderData(4,Qt::Horizontal,QObject::tr("prix_materiel"));
+
+    return model;
+}
+
+
+
 QSqlQueryModel * stock::tri_prix_materiel(){
     QSqlQueryModel *model=new QSqlQueryModel();
     model->setQuery("select * from stock order by prix_materiel ");
@@ -124,6 +142,7 @@ QSqlQueryModel * stock::tri_prix_materiel(){
 
     return model;
 }
+
 
 
 bool stock::rech(int x){
@@ -187,12 +206,21 @@ QSqlQueryModel* stock::rechercherquantite(QString a)
         return model;
 }
 
-int stock::Notifier()
-{int pos=3;
+bool stock::verif()
+{
+    QSqlQuery query;
+    bool test = false;
+    query.prepare("select * from stock");
+    query.exec();
+    QStringList list;
+    while(query.next()){
+        if(query.value(3).toInt() <= 4 )
+        {
+            test=true;
+        }
+    }
+    return test;
 
-    if((quantite<5)&&(quantite>0))
-    pos= 1;
-else if(quantite==0)
-pos= 0;
-    return pos;
 }
+
+
