@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "client.h"
+#include "arduino.h"
 
 #include <QMainWindow>
 
@@ -52,10 +53,13 @@ private slots:
     void on_envoyer_mail_3_clicked();
 
     QStringList getRecipientsAddress(QString str);
+    void update_label();
 
 private:
     Ui::MainWindow *ui;
     client C;
+    Arduino A;
+    QByteArray data;
 };
 
 #endif // MAINWINDOW_H

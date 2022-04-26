@@ -4,8 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql network
-QT       += sql
+QT       += core gui serialport multimedia
+QT       += sql network
 CONFIG += console
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    arduino.cpp \
     client.cpp \
     mail/emailaddress.cpp \
     mail/mimeattachment.cpp \
@@ -47,6 +48,7 @@ SOURCES += \
     qrcodegen.cpp
 
 HEADERS += \
+    arduino.h \
     client.h \
     mail/SmtpMime \
     mail/emailaddress.h \

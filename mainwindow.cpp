@@ -23,12 +23,29 @@
 //#include <QPieSeries>
 #include <QLineEdit>
 #include<QTextEdit>
+#include<QSqlRecord>
+#include <iostream>
+#include <QDebug>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    int ret=A.connect_arduino();
+    switch (ret) {
+    case (0):qDebug()<<"arduino is available and connected to: "<<A.getarduino_port_name();
+        break;
+    case(1):qDebug()<<"arduino is available but not connected to: "<<A.getarduino_port_name();
+        break;
+    case(-1):qDebug()<<"arduino is not available";
+        break;
+    }
+    QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));
+
     ui->tableView_Afficher->setModel(C.afficher());
     ui->comboBoxSup->setModel(C.afficherValeur("ID_CLT"));
     ui->comboBoxmod->setModel(C.afficherValeur("ID_CLT"));
@@ -340,13 +357,20 @@ void MainWindow::on_pushButton_excel_clicked()
 void MainWindow::on_pushButtoncode_clicked()
 {
     QString idC=ui->comboBoxCode->currentText();
+    /*QSqlQuery query;
+    query.prepare("select NOM from client where ID_CLT like '%' || :idC || '%' ");
+    query.bindValue(":idC", idC);
+    query.exec();
+    int nom = query.record().indexOf("NOM");
+    QString nomr=query.value(nom).toString();*/
 
-    std::string idCQr="0000000000000000000000000000"+idC.toStdString();
+    std::string idCQr="ID du CLIENT : "+idC.toStdString();
+    //std::string nomQr="Nom du CLIENT : "+nomr.toStdString();
 
                 int n = idCQr.length();
                 char char_array[n + 1];  //chaine qui va contenir l'identifiant a etre encode
                 strcpy(char_array, idCQr.c_str());//copie de la chaine qui va contenir l'identifiant a etre encode
-
+                //strcpy(char_array, nomQr.c_str());
 
 
                 /*const QrCode::Ecc errCorLvl = QrCode::Ecc::HIGH;  // Error correction level
@@ -354,9 +378,14 @@ void MainWindow::on_pushButtoncode_clicked()
                 C.qrCode.printRecu(qr,idCQr);*/
                 std::vector<uint8_t> bytes(char_array, char_array + std::strlen(char_array));
                             const QrCode qr = QrCode::encodeSegments(
-                                    {QrSegment::makeBytes(bytes)},
-                                        QrCode::Ecc::HIGH);
+                                    {QrSegment::makeBytes(bytes)},QrCode::Ecc::HIGH);
                             C.qrCode.printRecu(qr,idCQr);
+
+
+                            QMessageBox::information(nullptr, QObject::tr("Generer le code QR"),
+                                                      QObject::tr("Code QR Générer avec succès .\n"
+                                                                  "Click OK to exit."), QMessageBox::Ok);
+
 }
 
 /////////////////////////////////////MAIL
@@ -518,4 +547,40 @@ void MainWindow::on_envoyer_mail_3_clicked()
             }else QMessageBox::information(this,"Fill info", "please input senders addres and reciever addres");
         }else QMessageBox::information(this,"Fill info", "please input port and smtp");
     }else QMessageBox::information(this,"Fill info", "please input username and password");
+}
+
+void MainWindow::update_label()
+{
+        data=A.read_from_arduino();
+        qDebug()<<data;
+        QString rec = QString(data);
+        qDebug()<<rec;
+
+        if(C.rechardui(rec)){
+            QMessageBox::information(this,"LECTURE","Acces AUTORISE!");
+        }
+        else{
+            QMessageBox::information(this,"LECTURE","Acces REFUSE!");
+        }
+
+        /*QString rec = Empl.recupererNom(QString(data)).toByteArray();
+
+        QByteArray result= rec.toByteArray();
+        QByteArray nom= Empl.recupererNom(data.toStdString());
+        qDebug()<<"RESULT"<<result;
+
+       if(data=="\xE3")
+       // if(nom!="REFUS")
+        {
+           // QMessageBox::information(this,"LECTURE","LIVREUR AUTORISE!");
+            A.notification("LIVREUR CHRISTIAN AUTHENTIFIER AVEC SUCCES!");
+           A.write_to_arduino("CHRISTIAN");
+            //data= "-1";
+        }
+        else
+        {
+            A.notification("ECHEC D'AUTHENTIFICATION!");
+            A.write_to_arduino("REFUS");
+            //data= "-1";
+        }*/
 }

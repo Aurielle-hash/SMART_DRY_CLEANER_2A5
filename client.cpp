@@ -158,4 +158,36 @@ QSqlQueryModel* client::rechercher(QString valeur){
 
 }
 
+bool client::rechardui(QString valeur){
+
+    QSqlQuery query;
+    query.prepare("select NOM from client where ID_CLT like '%"+valeur+"%'");
+
+    if(query.exec())
+        {
+            int count=0;
+            while(query.next())
+            {
+                count++;
+            }
+            if(count==1)
+            {
+                return true;
+            }
+            if(count<1)
+            {
+
+                return false;
+            }
+
+        }
+        else
+        {
+            return false;
+
+        }
+
+    return false;
+}
+
 

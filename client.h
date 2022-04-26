@@ -59,6 +59,7 @@ public:
     QSqlQueryModel* trierA(QString);
     QSqlQueryModel* trierD(QString);
     QSqlQueryModel* rechercher(QString);
+    bool rechardui(QString);
 };
 
 #endif // CLIENT_H
