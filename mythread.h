@@ -1,25 +1,18 @@
 #ifndef MYTHREAD_H
 #define MYTHREAD_H
-#include <QThread>
-#include <QTcpSocket>
-#include <QDebug>
 
-class mythread : public QThread
+#include <QTcpSocket>
+namespace smartdrycleaner
 {
-Q_OBJECT
+class mythread :public QTcpSocket
+{
+    Q_OBJECT
 public:
-explicit mythread(int ID, QObject *parent=0);
-void run();
+    mythread(qintptr handle,QObject *parent =nullptr );
 
 signals:
-void error(QTcpSocket::SocketError socketerror);
-public slots:
-void readyRead();
-void disconnected();
-public slots:
-
-private:
-QTcpSocket *socket;
-int socketDescriptor;
+    void DuReadyRead(mythread *);
+    void DuStateChanged (mythread *,int);
 };
+}//end of smartdrycleaner
 #endif // MYTHREAD_H

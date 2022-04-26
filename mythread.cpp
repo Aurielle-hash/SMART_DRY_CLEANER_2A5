@@ -1,37 +1,16 @@
 #include "mythread.h"
-#include <QThread>
-
-mythread::mythread(int id,QObject * parent) :QThread (parent)
+namespace smartdrycleaner
 {
-this->socketDescriptor = id ;
-
-}
-void mythread::run()
+mythread::mythread(qintptr handle,QObject *parent )
+    :QTcpSocket(parent)
 {
-    //thread starts here
-    qDebug()<<socketDescriptor <<"strating thread" ;
-    socket = new QTcpSocket();
-    if (!socket->setSocketDescriptor(this->socketDescriptor))
+setSocketDescriptor(handle);
+connect(this,&mythread::readyRead,[&](){
+    emit DuReadyRead(this);
+});
+connect (this,&mythread::stateChanged,[&](int S )
 {
-        emit error (socket->error());
-        return;
-    }
-
-    connect(socket,SIGNAL(readyRead()),this,SLOT(readyRead()),Qt::DirectConnection);
-    connect(socket,SIGNAL(disconnected()),this,SLOT(disconnected()),Qt::DirectConnection);
-   qDebug()<<socketDescriptor <<"client connected" ;
-   exec();
+   emit DuStateChanged(this,S);
+});
 }
-
-void mythread::readyRead()
-{
-   QByteArray data = socket-> readAll();
-   qDebug()<<socketDescriptor <<"data in:"<< data ;
-   socket->write(data);
-}
-
-void mythread::disconnected()
-{   qDebug()<<socketDescriptor <<"client disconnected" ;
-    socket->deleteLater();
-    exit(0);
-}
+}//end namespace smartdrycleaner

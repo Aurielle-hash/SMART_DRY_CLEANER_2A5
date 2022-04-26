@@ -1,22 +1,22 @@
-#ifndef SERVER_H
-#define SERVER_H
-#include <QTcpServer>
-#include <QObject>
-#include <QDebug>
-#include "mythread.h"
+#ifndef MYSERVER_H
+#define MYSERVER_H
 
-class myserver : public QTcpServer
-{ Q_OBJECT
+#include<QTcpServer>
+namespace smartdrycleaner
+{
+class mythread;
+
+class myserver: public QTcpServer
+{
 public:
-    explicit myserver(QObject *parent=0);
-    void startserver();
-signals :
+    myserver(QObject* parent=nullptr);
+    bool startServer(quint16 port);
 
-public slots:
-
+private :
+QList <mythread *> mSockets;
 protected:
-    void incommingconnection(int socketDescriptor);
+void incomingConnection(qintptr handle);
 
 };
-
-#endif // SERVER_H
+   } //end of smartdrycleaner
+#endif // MYSERVER_H
